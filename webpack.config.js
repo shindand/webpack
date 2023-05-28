@@ -1,28 +1,38 @@
-const path = require('path'); // Node.js модуль для разрешения путей файлов
+const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCSSExtractPlugin = require('mini-css-extract-plugin');
 module.exports = {
-entry: './src/index.js',
+//entry: './src/index.js',
 output: {
 path: path.resolve(__dirname, 'dist'),
 filename: 'main.js',
 },
 module: {
     rules: [
-        {
-            test: /\.css$/,
-            use: [
-                MiniCSSExtractPlugin.loader,
-                'css-loader'
-            ]
-        }
-    ]
-},
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+      },
+      {
+        test: /\.html$/,
+      },
+      {
+        test: /\.css$/,
+        use: [
+            MiniCSSExtractPlugin.loader, 
+          'css-loader',
+        ],
+      },
+    ],
+  },
 plugins: [
     new HtmlWebpackPlugin({
-        template: './dist/index.html',
+        template: './src/index.html',
         filename: "./index.html"
     }),
-    new MiniCSSExtractPlugin()
+    new MiniCSSExtractPlugin({
+        filename: '[name].css',
+        chunkFilename: '[id].css',
+      })
 ]
 };
